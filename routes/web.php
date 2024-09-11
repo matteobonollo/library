@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -23,5 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
 
 require __DIR__.'/auth.php';
