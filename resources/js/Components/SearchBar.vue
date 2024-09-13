@@ -1,28 +1,26 @@
 <script setup>
 import { ref } from 'vue';
 
-// Create a reactive reference for the search query
 const searchQuery = ref('');
+const emit = defineEmits(['update-search']);
 
-// Emit an event when the user performs a search
-const emit = defineEmits(['search']);
-function handleSearch() {
-  emit('search', searchQuery.value);  // Emit the search query to the parent
+function emitSearchQuery() {
+  emit('update-search', searchQuery.value);
 }
 </script>
 
 <template>
-  <div class="search-bar">
-    <input
-      type="text"
-      v-model="searchQuery"
-      placeholder="Search..."
-      class="p-2 border rounded-md shadow-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-    />
-    <button @click="handleSearch" class="ml-2 p-2 bg-blue-500 text-white rounded-md">
-      Search
-    </button>
-  </div>
+    <div class="search-bar">
+      <input
+        v-model="searchQuery"
+        @input="emitSearchQuery"
+        placeholder="Cerca libri..."
+        class="p-2 border rounded-md shadow-sm"
+      />
+      <button @click="emitSearchQuery" class="ml-2 p-2 bg-blue-500 text-white rounded-md">
+        Cerca
+      </button>
+    </div>
 </template>
 
 <style scoped>
@@ -30,5 +28,8 @@ function handleSearch() {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+input {
+  color: black; /* Ensure the text color is visible */
 }
 </style>
