@@ -33,12 +33,9 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::findOrFail($id);
+
         return Inertia::render('BookDetail', [
             'book' => $book,
-/*             'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION, */
         ]);
     }
 }
