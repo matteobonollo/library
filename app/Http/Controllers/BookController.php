@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 
 
 

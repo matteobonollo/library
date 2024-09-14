@@ -24,6 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// routes/web.php or routes/api.php
+Route::get('/users', [ProfileController::class, 'index'])->middleware('auth');
+
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');

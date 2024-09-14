@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -59,5 +60,18 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function index()
+    {
+        // Check if the current user is an admin
+        if (Auth::user()->is_admin) {
+            // Fetch all users
+            $users = User::all();
+            return response()->json($users); // Return as JSON for API
+        }
+
+        // Return a forbidden response if not admin
+        return response()->json(['error' => 'Unauthorized'], 403);
     }
 }

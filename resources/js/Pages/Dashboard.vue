@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import UserList from './UserList.vue';
 </script>
 
 <template>
@@ -18,5 +19,8 @@ import { Head } from '@inertiajs/vue3';
                 </div>
             </div>
         </div>
+        
+        <UserList />
+        
     </AuthenticatedLayout>
 </template>
