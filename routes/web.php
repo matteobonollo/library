@@ -31,4 +31,11 @@ Route::get('/users', [ProfileController::class, 'index'])->middleware('auth');
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
 
+// Route to add a book to favorites
+Route::post('/favorites', [BookController::class, 'toggleFavorite'])->middleware('auth');
+
+// Route to remove a book from favorites
+Route::delete('/favorites/{book}', [BookController::class, 'toggleFavorite'])->middleware('auth');
+
+
 require __DIR__.'/auth.php';

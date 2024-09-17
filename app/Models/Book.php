@@ -10,4 +10,12 @@ class Book extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'description', 'image', 'price'];
+
+    public function favoritedBy()
+{
+    return $this->belongsToMany(User::class, 'book_user', 'book_id', 'user_id')->withTimestamps();
 }
+}
+
+
+
