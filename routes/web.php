@@ -37,6 +37,9 @@ Route::post('/favorites', [BookController::class, 'addFavorite'])->middleware('a
 // Route to remove a book from favorites
 Route::delete('/favorites/{book}', [BookController::class, 'removeFavorite'])->middleware('auth');
 
+Route::get('users/{id}/favorites', [BookController::class, 'userFavorites']);
+
+
 
 
 require __DIR__.'/auth.php';

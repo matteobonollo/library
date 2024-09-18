@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -108,5 +109,18 @@ class BookController extends Controller
         }
 
         return response()->json(['is_favorite' => false]);
+    }
+
+    public function userFavorites($userId)
+    {
+        try {
+            $user = User::findOrFail($userId);
+            $books = $user->favorites;
+
+            return response()->json($books);
+        } catch (ModelNotFoundException $e) {
+            Log::error('User not found: ' . $userId);
+            return response()->json(['error' => 'User not found'], 404);
+        }
     }
 }

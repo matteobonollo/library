@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     public function favorites()
     {
-        Log::error('remove');
+        
         return $this->belongsToMany(Book::class, 'book_user', 'user_id', 'book_id')->withTimestamps();
     }
 
