@@ -1,3 +1,43 @@
+<template>
+  <div class="p-6 bg-background">
+    <!-- Display a message if no books are available -->
+    <div v-if="books.length === 0" class="text-center text-gray-500">
+      No results found
+    </div>
+
+    <!-- Display books if available -->
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div v-for="book in books" :key="book.id"
+          class="bg-white border border-gray-200 rounded-lg shadow-default overflow-hidden transition-transform transform hover:scale-105">
+        <img :src="book.image" alt="Book Image" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ book.name }}</h3>
+          <p class="text-gray-600 mb-4">{{ book.description }}</p>
+          <button @click="goToBook(book.id)"
+              class="bg-primary text-white px-4 py-2 rounded-md shadow-default hover:bg-blue-600 transition-colors">
+              View Details
+          </button>
+          <!-- Show "Add to Favorites" button if the book is not in favorites -->
+          <button v-if="$page.props.auth.user" 
+                  @click="addFavorite(book.id)"
+                  v-show="!book.is_favorite"
+                  class="mt-2 bg-accent text-white px-4 py-2 rounded-md shadow-default hover:bg-yellow-600 transition-colors">
+              Add to Favorites
+          </button>
+          
+          <!-- Show "Remove from Favorites" button if the book is in favorites -->
+          <button v-if="$page.props.auth.user" 
+                  @click="removeFavorite(book.id)"
+                  v-show="book.is_favorite"
+                  class="mt-2 bg-red-500 text-white px-4 py-2 rounded-md shadow-default hover:bg-red-600 transition-colors">
+              Remove from Favorites
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import axios from 'axios';
@@ -13,11 +53,9 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-
 });
 
 const books = ref([]);
-
 const favorites = ref([...props.favorites]);
 
 async function fetchBooks(searchQuery = '') {
@@ -30,7 +68,6 @@ watch(() => props.searchQuery, (newSearchQuery) => {
 });
 
 function goToBook(id) {
-  console.log(`Navigating to /books/${id}`);
   Inertia.visit(`/books/${id}`);
 }
 
@@ -41,7 +78,6 @@ async function addFavorite(bookId) {
     books.value = books.value.map(book => 
       book.id === bookId ? { ...book, is_favorite: true } : book
     );
-    // Optionally update the UI or refetch favorites
   } catch (error) {
     console.error('Error adding favorite:', error);
   }
@@ -54,7 +90,6 @@ async function removeFavorite(bookId) {
     books.value = books.value.map(book => 
       book.id === bookId ? { ...book, is_favorite: false } : book
     );
-    // Optionally update the UI or refetch favorites
   } catch (error) {
     console.error('Error removing favorite:', error);
   }
@@ -64,43 +99,3 @@ onMounted(() => {
   fetchBooks(props.searchQuery);
 });
 </script>
-
-<template>
-  <div class="p-6">
-    <!-- Display a message if no books are available -->
-    <div v-if="books.length === 0" class="text-center text-gray-500">
-      Nessun risultato trovato
-    </div>
-
-    <!-- Display books if available -->
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div v-for="book in books" :key="book.id"
-          class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105">
-        <img :src="book.image" alt="Book Image" class="w-full h-48 object-cover">
-        <div class="p-4">
-          <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">{{ book.name }}</h3>
-          <p class="text-gray-600 dark:text-gray-400 mb-4">{{ book.description }}</p>
-          <button @click="goToBook(book.id)"
-              class="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 transition-colors">
-              Scopri di più
-          </button>
-           <!-- Show "Add to Favorites" button if the book is not in favorites -->
-           <button v-if="$page.props.auth.user" 
-                  @click="addFavorite(book.id)"
-                  v-show="!book.is_favorite"
-                  class="mt-2 bg-green-500 text-white px-4 py-2 rounded-md shadow hover:bg-green-600 transition-colors">
-              Add to Favorites
-          </button>
-          
-          <!-- Show "Remove from Favorites" button if the book is in favorites -->
-          <button v-if="$page.props.auth.user" 
-                  @click="removeFavorite(book.id)"
-                  v-show="book.is_favorite"
-                  class="mt-2 bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 transition-colors">
-              Remove from Favorites
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>

@@ -1,15 +1,15 @@
 <template>
-  <div v-if="book" class="p-6">
-    <h1 class="text-2xl font-bold mb-4">{{ book.name }}</h1>
-    <img :src="book.image" alt="Book Image" class="w-full h-auto mb-4" />
-    <p class="text-lg mb-4">{{ book.description }}</p>
-    <p class="text-lg font-semibold">Price: ${{ book.price }}</p>
-    
+  <div v-if="book" class="p-6 bg-background max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-4 text-gray-900">{{ book.name }}</h1>
+    <img :src="book.image" alt="Book Image" class="w-full h-64 object-cover mb-4 rounded-lg">
+    <p class="text-lg text-gray-700 mb-4">{{ book.description }}</p>
+    <p class="text-lg font-semibold text-gray-900">Price: ${{ book.price }}</p>
+
     <!-- Display the appropriate button based on the favorite status -->
-    <button v-if="!isBookFavorite" @click="addFavorite" class="bg-green-500 text-white px-4 py-2 rounded-md">
+    <button v-if="!isBookFavorite" @click="addFavorite" class="mt-4 bg-accent text-white px-6 py-3 rounded-md shadow-default hover:bg-yellow-600 transition-colors">
       Add to Favorites
     </button>
-    <button v-if="isBookFavorite" @click="removeFavorite" class="bg-red-500 text-white px-4 py-2 rounded-md">
+    <button v-if="isBookFavorite" @click="removeFavorite" class="mt-4 bg-red-500 text-white px-6 py-3 rounded-md shadow-default hover:bg-red-600 transition-colors">
       Remove from Favorites
     </button>
   </div>
@@ -23,10 +23,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { usePage } from '@inertiajs/vue3';
 
-// Props
 const { book, isFavorite } = usePage().props;
-
-// Local state to track favorite status
 const isBookFavorite = ref(isFavorite);
 
 async function addFavorite() {
@@ -49,5 +46,5 @@ async function removeFavorite() {
 </script>
 
 <style scoped>
-/* Add your styles here */
+/* Optional: Add additional styles if necessary */
 </style>

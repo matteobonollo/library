@@ -21,8 +21,8 @@ class BookController extends Controller
         // Get the search query from the request
         $search = $request->input('search');
         $user = Auth::user();
-
-        // If search is present, filter the books by name or description
+    
+        // Retrieve all books and apply search filters if provided
         $books = Book::query()
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'like', "%{$search}%")
@@ -38,10 +38,9 @@ class BookController extends Controller
                 }
                 return $book;
             });
-
+    
         return response()->json($books);
     }
-
     // Show the details of a single book
     public function show($id)
     {
