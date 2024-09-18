@@ -44,9 +44,9 @@ function handleImageError() {
         </div>
 
         <!-- Logo -->
-        <div class="flex justify-center lg:justify-center">
-          <ApplicationLogo class="block h-10 w-auto fill-current text-blue-600" />
-        </div>
+        
+        <ApplicationLogo  />
+        
 
         <!-- Navigation -->
         <nav v-if="canLogin" class="flex flex-1 justify-end mt-6 lg:mt-0 w-full lg:w-auto">
